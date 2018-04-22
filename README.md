@@ -1,5 +1,9 @@
 # truffle-assertions
 
+[![npm version](https://badge.fury.io/js/truffle-assertions.svg)](https://badge.fury.io/js/truffle-assertions)
+![npm](https://img.shields.io/npm/dt/truffle-assertions.svg)
+![npm](https://img.shields.io/npm/l/truffle-assertions.svg)
+
 This package adds additional assertions that can be used to test Ethereum smart contracts inside Truffle tests.
 
 ## Installation
@@ -28,7 +32,7 @@ truffleAssert.eventEmitted(result, 'TestEvent', (ev) => {
 When the filter parameter is set to null, the assertion checks just for event type:
 
 ```javascript
-truffleAssertions.eventEmitted(result, 'TestEvent', null);
+truffleAssert.eventEmitted(result, 'TestEvent', null);
 ```
 
 ### truffleAssert.eventNotEmitted(result, eventType, filter)
@@ -43,5 +47,5 @@ truffleAssert.eventNotEmitted(result, 'TestEvent', (ev) => {
 When the filter parameter is set to null, the assertion checks just for event type:
 
 ```javascript
-truffleAssertions.eventEmitted(result, 'TestEvent', null);
+truffleAssert.eventNotEmitted(result, 'TestEvent', null);
 ```
