@@ -31,7 +31,7 @@ module.exports = {
     let eventArgs = _.map(events, (entry) => {
         return entry.args;
     });
-    eventArgs = _.filter(eventArgs, argfilter);
+    eventArgs = _.filter(eventArgs, filter);
     assert.isEmpty(eventArgs, `Event filter for ${eventType} returned results`);
   }
 }
