@@ -8,7 +8,7 @@ module.exports = {
     });
     assert.isNotEmpty(events, `Event of type ${eventType} was not emitted`);
 
-    if (argfilter === null) {
+    if (filter === null) {
         return;
     }
 
@@ -23,7 +23,7 @@ module.exports = {
         return entry.event === eventType;
     });
 
-    if (argfilter === null) {
+    if (filter === null) {
         assert.isEmpty(events, `Event of type ${eventType} was emitted`);
         return;
     }
