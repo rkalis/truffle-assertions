@@ -1,0 +1,31 @@
+{
+  "name": "truffle-assertions",
+  "version": "0.1.0",
+  "description": "Additional assertions for testing Ethereum smart contracts Truffle unit tests",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [
+    "truffle",
+    "mocha",
+    "chai",
+    "assert",
+    "assertions",
+    "test",
+    "events",
+    "ethereum"
+  ],
+  "author": "Rosco Kalis",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rkalis/truffle-assertions"
+  },
+  "bugs": {
+    "url": "https://github.com/rkalis/truffle-assertions/issues"
+  },
+  "homepage": "https://github.com/rkalis/truffle-assertions",
+  "dependencies": {
+    "chai": "^4.1.2",
+    "lodash": "^4.17.5"
+  }
+}
