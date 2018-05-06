@@ -14,7 +14,7 @@ createAssertionMessage = (passedMessage, defaultMessage) => {
 }
 
 assertEventListNotEmpty = (list, passedMessage, defaultMessage) => {
-  const assertionMessage = createAssertionMessage(passedAssertionMessage, defaultMessage);
+  const assertionMessage = createAssertionMessage(passedMessage, defaultMessage);
   if (!Array.isArray(list) || list.length === 0) {
     throw new AssertionError(assertionMessage);
   }
