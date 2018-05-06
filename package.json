@@ -6,13 +6,12 @@
   "scripts": {},
   "keywords": [
     "truffle",
-    "mocha",
-    "chai",
     "assert",
     "assertions",
     "test",
     "events",
-    "ethereum"
+    "ethereum",
+    "solidity"
   ],
   "author": "Rosco Kalis",
   "license": "MIT",
@@ -25,7 +24,7 @@
   },
   "homepage": "https://github.com/rkalis/truffle-assertions",
   "dependencies": {
-    "chai": "^4.1.2",
+    "assertion-error": "^1.1.0",
     "lodash": "^4.17.5"
   }
 }
