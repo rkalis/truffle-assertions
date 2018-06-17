@@ -18,10 +18,10 @@ To use this package, import it at the top of the Truffle test file:
 const truffleAssert = require('truffle-assertions');
 ```
 
-## Assertions
+## Exported functions
 
 ### truffleAssert.eventEmitted(result, eventType, filter, message)
-The `eventEmitted` assertion checks that an event with type eventType has been emitted by the transaction with result result. A filter function can be passed along to further specify requirements for the event arguments:
+The `eventEmitted` assertion checks that an event with type `eventType` has been emitted by the transaction with result `result`. A filter function can be passed along to further specify requirements for the event arguments:
 
 ```javascript
 truffleAssert.eventEmitted(result, 'TestEvent', (ev) => {
@@ -29,7 +29,7 @@ truffleAssert.eventEmitted(result, 'TestEvent', (ev) => {
 });
 ```
 
-When the filter parameter is omitted or set to null, the assertion checks just for event type:
+When the `filter` parameter is omitted or set to null, the assertion checks just for event type:
 
 ```javascript
 truffleAssert.eventEmitted(result, 'TestEvent');
@@ -48,10 +48,10 @@ The default messages are
 `Event of type ${eventType} was not emitted`
 `Event filter for ${eventType} returned no results`
 ```
-Depending on the reason for the assertion failure.
+Depending on the reason for the assertion failure. The default message also includes a list of events that were emitted in the passed transaction.
 
 ### truffleAssert.eventNotEmitted(result, eventType, filter, message)
-The `eventNotEmitted` assertion checks that an event with type eventType has not been emitted by the transaction with result result. A filter function can be passed along to further specify requirements for the event arguments:
+The `eventNotEmitted` assertion checks that an event with type `eventType` has not been emitted by the transaction with result `result`. A filter function can be passed along to further specify requirements for the event arguments:
 
 ```javascript
 truffleAssert.eventNotEmitted(result, 'TestEvent', (ev) => {
@@ -59,7 +59,7 @@ truffleAssert.eventNotEmitted(result, 'TestEvent', (ev) => {
 });
 ```
 
-When the filter parameter is omitted or set to null, the assertion checks just for event type:
+When the `filter` parameter is omitted or set to null, the assertion checks just for event type:
 
 ```javascript
 truffleAssert.eventNotEmitted(result, 'TestEvent');
@@ -76,4 +76,18 @@ The default messages are
 `Event of type ${eventType} was emitted`
 `Event filter for ${eventType} returned results`
 ```
-Depending on the reason for the assertion failure.
+Depending on the reason for the assertion failure. The default message also includes a list of events that were emitted in the passed transaction.
+
+### truffleAssert.prettyPrintEmittedEvents(result)
+
+Pretty prints the full list of events with their parameters, that were emitted in transaction with result `result`
+
+```
+truffleAssert.prettyPrintEmittedEvents(result);
+```
+```
+Events emitted in tx 0x7da28cf2bd52016ee91f10ec711edd8aa2716aac3ed453b0def0af59991d5120:
+----------------------------------------------------------------------------------------
+TestEvent(testAddress = 0xe04893f0a1bdb132d66b4e7279492fcfe602f0eb, testInt: 10)
+----------------------------------------------------------------------------------------
+```
