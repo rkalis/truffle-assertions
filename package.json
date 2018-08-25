@@ -24,7 +24,6 @@
   },
   "homepage": "https://github.com/rkalis/truffle-assertions",
   "dependencies": {
-    "assertion-error": "^1.1.0",
-    "lodash": "^4.17.5"
+    "assertion-error": "^1.1.0"
   }
 }

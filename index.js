@@ -1,4 +1,4 @@
-const _ = require('lodash');
+// const _ = require('lodash');
 const AssertionError = require('assertion-error');
 
 /* Creates a new assertion message, containing the passedAssertionMessage and
@@ -53,45 +53,53 @@ getPrettyEmittedEventsString = (result) => {
   return string;
 }
 
+assertEventEmittedFromTxResult = (result, eventType, filter, message) => {
+  /* Filter correct event types */
+  const events = result.logs.filter((entry) => {
+    return entry.event === eventType;
+  });
+  //TODO: Move the getPrettyEmittedEventsString to the assertion functions
+  assertEventListNotEmpty(events, message, `Event of type ${eventType} was not emitted\n${getPrettyEmittedEventsString(result)}`);
+
+  /* Return if no filter function was provided */
+  if (filter === undefined || filter === null) {
+    return;
+  }
+
+  /* Filter correct arguments */
+  let eventArgs = events.map((entry) => {
+    return entry.args;
+  });
+  eventArgs = eventArgs.filter(filter);
+  assertEventListNotEmpty(eventArgs, message, `Event filter for ${eventType} returned no results\n${getPrettyEmittedEventsString(result)}`);
+}
+
+assertEventNotEmittedFromTxResult = (result, eventType, filter, message) => {
+  /* Filter correct event types */
+  const events = result.logs.filter((entry) => {
+    return entry.event === eventType;
+  });
+
+  /* Only check filtered events if there is no provided filter function */
+  if (filter == undefined || filter === null) {
+    assertEventListEmpty(events, message, `Event of type ${eventType} was emitted\n${getPrettyEmittedEventsString(result)}`);
+    return;
+  }
+
+  /* Filter correct arguments */
+  let eventArgs = events.map((entry) => {
+    return entry.args;
+  });
+  eventArgs = eventArgs.filter(filter);
+  assertEventListEmpty(eventArgs, message, `Event filter for ${eventType} returned results\n${getPrettyEmittedEventsString(result)}`);
+}
+
 module.exports = {
   eventEmitted: (result, eventType, filter, message) => {
-    /* Filter correct event types */
-    const events = _.filter(result.logs, (entry) => {
-      return entry.event === eventType;
-    });
-    //TODO: Move the getPrettyEmittedEventsString to the assertion functions
-    assertEventListNotEmpty(events, message, `Event of type ${eventType} was not emitted\n${getPrettyEmittedEventsString(result)}`);
-
-    /* Return if no filter function was provided */
-    if (filter === undefined || filter === null) {
-      return;
-    }
-
-    /* Filter correct arguments */
-    let eventArgs = _.map(events, (entry) => {
-      return entry.args;
-    });
-    eventArgs = _.filter(eventArgs, filter);
-    assertEventListNotEmpty(eventArgs, message, `Event filter for ${eventType} returned no results\n${getPrettyEmittedEventsString(result)}`);
+    assertEventEmittedFromTxResult(result, eventType, filter, message);
   },
   eventNotEmitted: (result, eventType, filter, message) => {
-    /* Filter correct event types */
-    const events = _.filter(result.logs, (entry) => {
-      return entry.event === eventType;
-    });
-
-    /* Only check filtered events if there is no provided filter function */
-    if (filter == undefined || filter === null) {
-      assertEventListEmpty(events, message, `Event of type ${eventType} was emitted\n${getPrettyEmittedEventsString(result)}`);
-      return;
-    }
-
-    /* Filter correct arguments */
-    let eventArgs = _.map(events, (entry) => {
-      return entry.args;
-    });
-    eventArgs = _.filter(eventArgs, filter);
-    assertEventListEmpty(eventArgs, message, `Event filter for ${eventType} returned results\n${getPrettyEmittedEventsString(result)}`);
+    assertEventNotEmittedFromTxResult(result, eventType, filter, message);
   },
   prettyPrintEmittedEvents: (result) => {
     console.log(getPrettyEmittedEventsString(result));
