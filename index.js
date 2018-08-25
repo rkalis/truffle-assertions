@@ -1,10 +1,9 @@
-// const _ = require('lodash');
 const AssertionError = require('assertion-error');
 
 /* Creates a new assertion message, containing the passedAssertionMessage and
- * the defaultAssertion message when passedAssertionMessage exists, otherwise
- * just the default.
- */
+* the defaultAssertion message when passedAssertionMessage exists, otherwise
+* just the default.
+*/
 createAssertionMessage = (passedMessage, defaultMessage) => {
   let assertionMessage = defaultMessage;
   if (passedMessage) {
@@ -38,8 +37,8 @@ getPrettyEventString = (eventType, args) => {
 }
 
 /* Returns a list of all emitted events in a transaction,
- * using the format of getPrettyEventString
- */
+* using the format of getPrettyEventString
+*/
 getPrettyEmittedEventsString = (result) => {
   if (result.logs.length === 0) {
     return `    No events emitted in tx ${result.tx}\n`;
@@ -94,6 +93,23 @@ assertEventNotEmittedFromTxResult = (result, eventType, filter, message) => {
   assertEventListEmpty(eventArgs, message, `Event filter for ${eventType} returned results\n${getPrettyEmittedEventsString(result)}`);
 }
 
+createTransactionResult = (contract, transactionHash) => {
+  return new Promise((resolve, reject) => {
+    const transactionReceipt = web3.eth.getTransactionReceipt(transactionHash);
+    const blockNumber = transactionReceipt.blockNumber;
+    const allEvents = contract.allEvents({fromBlock: blockNumber, toBlock: blockNumber});
+    allEvents.get((error, logs) => {
+      if (error !== null)
+      reject(error);
+      resolve({
+        tx: transactionHash,
+        receipt: transactionReceipt,
+        logs: logs.filter(log => log.transactionHash === transactionHash)
+      });
+    })
+  });
+}
+
 module.exports = {
   eventEmitted: (result, eventType, filter, message) => {
     assertEventEmittedFromTxResult(result, eventType, filter, message);
@@ -103,5 +119,8 @@ module.exports = {
   },
   prettyPrintEmittedEvents: (result) => {
     console.log(getPrettyEmittedEventsString(result));
+  },
+  createTransactionResult: (contract, transactionHash) => {
+    return createTransactionResult(contract, transactionHash);
   }
 }
