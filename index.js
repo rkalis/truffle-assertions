@@ -1,15 +1,15 @@
 const AssertionError = require('assertion-error');
 
 /* Creates a new assertion message, containing the passedAssertionMessage and
-* the defaultAssertion message when passedAssertionMessage exists, otherwise
-* just the default.
-*/
+ * the defaultAssertion message when passedAssertionMessage exists, otherwise
+ * just the default.
+ */
 createAssertionMessage = (passedMessage, defaultMessage) => {
   let assertionMessage = defaultMessage;
   if (passedMessage) {
     assertionMessage = `${passedMessage} : ${defaultMessage}`;
   }
-  return assertionMessage
+  return assertionMessage;
 }
 
 assertEventListNotEmpty = (list, passedMessage, defaultMessage) => {
@@ -37,8 +37,8 @@ getPrettyEventString = (eventType, args) => {
 }
 
 /* Returns a list of all emitted events in a transaction,
-* using the format of getPrettyEventString
-*/
+ * using the format of getPrettyEventString
+ */
 getPrettyEmittedEventsString = (result) => {
   if (result.logs.length === 0) {
     return `    No events emitted in tx ${result.tx}\n`;
@@ -100,13 +100,25 @@ createTransactionResult = (contract, transactionHash) => {
     const allEvents = contract.allEvents({fromBlock: blockNumber, toBlock: blockNumber});
     allEvents.get((error, logs) => {
       if (error !== null)
-      reject(error);
+        reject(error);
       resolve({
         tx: transactionHash,
         receipt: transactionReceipt,
         logs: logs.filter(log => log.transactionHash === transactionHash)
       });
-    })
+    });
+  });
+}
+
+reverts = async (promise, message) => {
+  return promise.then(() => {
+    const assertionMessage = createAssertionMessage(message, 'Method did not revert');
+    throw new AssertionError(assertionMessage);
+  }).catch(error => {
+    if (!error.message.includes("revert")) {
+      const assertionMessage = createAssertionMessage(message, `Method did not revert, but promise was rejected with: ${error.message}`);
+      throw new AssertionError(assertionMessage);
+    }
   });
 }
 
@@ -122,5 +134,8 @@ module.exports = {
   },
   createTransactionResult: (contract, transactionHash) => {
     return createTransactionResult(contract, transactionHash);
+  },
+  reverts: async (promise, message) => {
+    return reverts(promise, message);
   }
 }

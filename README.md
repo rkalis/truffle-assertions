@@ -79,7 +79,6 @@ The default messages are
 Depending on the reason for the assertion failure. The default message also includes a list of events that were emitted in the passed transaction.
 
 ### truffleAssert.prettyPrintEmittedEvents(result)
-
 Pretty prints the full list of events with their parameters, that were emitted in transaction with result `result`
 
 ```javascript
@@ -93,7 +92,6 @@ TestEvent(testAddress = 0xe04893f0a1bdb132d66b4e7279492fcfe602f0eb, testInt: 10)
 ```
 
 ### truffleAssert.createTransactionResult(contract, transactionHash)
-
 There can be times where we only have access to a transaction hash, and not to a transaction result object, such as with the deployment of a new contract instance using `Contract.new();`. In these cases we still want to be able to assert that certain events are or aren't emitted.
 
 `truffle-assertions` offers the possibility to create a transaction result object from a contract instance and a transaction hash, which can then be used in the other functions that the library offers.
@@ -103,4 +101,23 @@ let contractInstance = await Contract.new();
 let result = await truffleAssert.createTransactionResult(contractInstance, contractInstance.transactionHash);
 
 truffleAssert.eventEmitted(result, 'TestEvent');
+```
+
+### truffleAssert.reverts(promise, message)
+Asserts that the passed promise reverts.
+
+```javascript
+await truffleAssert.reverts(contractInstance.methodThatShouldRevert());
+```
+
+Optionally, a custom message can be passed to the assertion, which will be displayed alongside the default one:
+
+```javascript
+await truffleAssert.reverts(contractInstance.methodThatShouldRevert(), 'This method should revert');
+```
+
+The default messages are
+```javascript
+'Method did not revert' // when the promise resolves
+`Method did not revert, but promise was rejected with: ${error.message}` // when the promise is rejected for a different reason
 ```
