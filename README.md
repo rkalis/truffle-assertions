@@ -118,6 +118,6 @@ await truffleAssert.reverts(contractInstance.methodThatShouldRevert(), 'This met
 
 The default messages are
 ```javascript
-'Method did not revert' // when the promise resolves
-`Method did not revert, but promise was rejected with: ${error.message}` // when the promise is rejected for a different reason
+'Did not revert' // when the promise resolves
+`Did not revert, but was rejected with: ${error}` // when the promise is rejected for a different reason
 ```

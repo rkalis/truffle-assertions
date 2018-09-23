@@ -112,11 +112,11 @@ createTransactionResult = (contract, transactionHash) => {
 
 reverts = async (promise, message) => {
   return promise.then(() => {
-    const assertionMessage = createAssertionMessage(message, 'Method did not revert');
+    const assertionMessage = createAssertionMessage(message, 'Did not revert');
     throw new AssertionError(assertionMessage);
   }).catch(error => {
     if (!error.message.includes("revert")) {
-      const assertionMessage = createAssertionMessage(message, `Method did not revert, but promise was rejected with: ${error.message}`);
+      const assertionMessage = createAssertionMessage(message, `Did not revert, but was rejected with: ${error}`);
       throw new AssertionError(assertionMessage);
     }
   });
