@@ -110,12 +110,15 @@ createTransactionResult = (contract, transactionHash) => {
   });
 }
 
-fails = async (asyncFn, errorType, message) => {
+fails = async (asyncFn, errorType, reason, message) => {
   return asyncFn.then(() => {
     const assertionMessage = createAssertionMessage(message, 'Did not fail');
     throw new AssertionError(assertionMessage);
   }).catch(error => {
-    if (errorType !== undefined && errorType !== null && !error.message.includes(errorType)) {
+    if (
+        errorType !== undefined && errorType !== null && !error.message.includes(errorType) ||
+        reason !== undefined && reason !== null && !error.message.includes(reason)
+    ) {
       const assertionMessage = createAssertionMessage(message, `Expected to fail with ${errorType}, but failed with: ${error}`);
       throw new AssertionError(assertionMessage);
     }
@@ -142,11 +145,11 @@ module.exports = {
   createTransactionResult: (contract, transactionHash) => {
     return createTransactionResult(contract, transactionHash);
   },
-  fails: async (asyncFn, errorType, message) => {
-    return fails(asyncFn, errorType, message);
+  fails: async (asyncFn, errorType, reason, message) => {
+    return fails(asyncFn, errorType, reason, message);
   },
-  reverts: async (asyncFn, message) => {
-    return fails(asyncFn, ErrorType.REVERT, message);
+  reverts: async (asyncFn, reason, message) => {
+    return fails(asyncFn, ErrorType.REVERT, reason, message);
   },
   ErrorType: ErrorType
 }

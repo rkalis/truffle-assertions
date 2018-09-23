@@ -103,8 +103,8 @@ let result = await truffleAssert.createTransactionResult(contractInstance, contr
 truffleAssert.eventEmitted(result, 'TestEvent');
 ```
 
-### truffleAssert.fails(asyncFn[, errorType][, message])
-Asserts that the passed async contract function fails with a certain ErrorType.
+### truffleAssert.fails(asyncFn[, errorType][, reason][, message])
+Asserts that the passed async contract function fails with a certain ErrorType and reason.
 
 The different error types are defined as follows:
 ```
@@ -120,7 +120,13 @@ ErrorType = {
 await truffleAssert.fails(contractInstance.methodThatShouldFail(), truffleAssert.ErrorType.OUT_OF_GAS);
 ```
 
-If the errorType parameter is omitted, the function just checks for failure, regardless of cause.
+A reason can be passed to the assertion, which functions as an extra filter on the revert reason (note that this is only relevant in the case of revert, not for the other ErrorTypes). This functionality requires at least Truffle v0.5.
+
+```javascript
+await truffleAssert.fails(contractInstance.methodThatShouldFail(), truffleAssert.ErrorType.REVERT, "only owner");
+```
+
+If the errorType parameter is omitted or set to null, the function just checks for failure, regardless of cause.
 
 ```javascript
 await truffleAssert.fails(contractInstance.methodThatShouldFail());
@@ -138,9 +144,9 @@ The default messages are
 `Expected to fail with ${errorType}, but failed with: ${error}`
 ```
 
-### truffleAssert.reverts(asyncFn[, message])
-This is a convenience wrapper for `truffleAssert.fails(asyncFn, truffleAssert.ErrorType.REVERT[, message])`
+### truffleAssert.reverts(asyncFn[, reason][, message])
+This is a convenience wrapper for `truffleAssert.fails(asyncFn, truffleAssert.ErrorType.REVERT[, reason][, message])`
 
 ```javascript
-await truffleAssert.reverts(contractInstance.methodThatShouldRevert());
+await truffleAssert.reverts(contractInstance.methodThatShouldRevert(), "owner only");
 ```
