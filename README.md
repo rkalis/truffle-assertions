@@ -117,7 +117,7 @@ ErrorType = {
 ```
 
 ```javascript
-await truffleAssert.fails(contractInstance.methodThatShouldFail(), ErrorType.OUT_OF_GAS);
+await truffleAssert.fails(contractInstance.methodThatShouldFail(), truffleAssert.ErrorType.OUT_OF_GAS);
 ```
 
 If the errorType parameter is omitted, the function just checks for failure, regardless of cause.
@@ -129,7 +129,7 @@ await truffleAssert.fails(contractInstance.methodThatShouldFail());
 Optionally, a custom message can be passed to the assertion, which will be displayed alongside the default one:
 
 ```javascript
-await truffleAssert.fails(contractInstance.methodThatShouldFail(), ErrorType.OUT_OF_GAS, 'This method should run out of gas');
+await truffleAssert.fails(contractInstance.methodThatShouldFail(), truffleAssert.ErrorType.OUT_OF_GAS, 'This method should run out of gas');
 ```
 
 The default messages are
@@ -139,7 +139,7 @@ The default messages are
 ```
 
 ### truffleAssert.reverts(asyncFn[, message])
-This is a convenience wrapper for `truffleAssert.fails(asyncFn, ErrorType.REVERT[, message])`
+This is a convenience wrapper for `truffleAssert.fails(asyncFn, truffleAssert.ErrorType.REVERT[, message])`
 
 ```javascript
 await truffleAssert.reverts(contractInstance.methodThatShouldRevert());
