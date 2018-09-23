@@ -117,13 +117,20 @@ ErrorType = {
 ```
 
 ```javascript
-await truffleAssert.fails(contractInstance.methodThatShouldFail(), truffleAssert.ErrorType.OUT_OF_GAS);
+await truffleAssert.fails(
+    contractInstance.methodThatShouldFail(),
+    truffleAssert.ErrorType.OUT_OF_GAS
+);
 ```
 
 A reason can be passed to the assertion, which functions as an extra filter on the revert reason (note that this is only relevant in the case of revert, not for the other ErrorTypes). This functionality requires at least Truffle v0.5.
 
 ```javascript
-await truffleAssert.fails(contractInstance.methodThatShouldFail(), truffleAssert.ErrorType.REVERT, "only owner");
+await truffleAssert.fails(
+    contractInstance.methodThatShouldFail(),
+    truffleAssert.ErrorType.REVERT,
+    "only owner"
+);
 ```
 
 If the errorType parameter is omitted or set to null, the function just checks for failure, regardless of cause.
@@ -135,7 +142,12 @@ await truffleAssert.fails(contractInstance.methodThatShouldFail());
 Optionally, a custom message can be passed to the assertion, which will be displayed alongside the default one:
 
 ```javascript
-await truffleAssert.fails(contractInstance.methodThatShouldFail(), truffleAssert.ErrorType.OUT_OF_GAS, 'This method should run out of gas');
+await truffleAssert.fails(
+    contractInstance.methodThatShouldFail(),
+    truffleAssert.ErrorType.OUT_OF_GAS,
+    null,
+    'This method should run out of gas'
+);
 ```
 
 The default messages are
@@ -145,8 +157,11 @@ The default messages are
 ```
 
 ### truffleAssert.reverts(asyncFn[, reason][, message])
-This is a convenience wrapper for `truffleAssert.fails(asyncFn, truffleAssert.ErrorType.REVERT[, reason][, message])`
+This is an alias for `truffleAssert.fails(asyncFn, truffleAssert.ErrorType.REVERT[, reason][, message])`.
 
 ```javascript
-await truffleAssert.reverts(contractInstance.methodThatShouldRevert(), "owner only");
+await truffleAssert.reverts(
+    contractInstance.methodThatShouldRevert(),
+    "only owner"
+);
 ```
