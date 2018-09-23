@@ -20,7 +20,7 @@ const truffleAssert = require('truffle-assertions');
 
 ## Exported functions
 
-### truffleAssert.eventEmitted(result, eventType, filter, message)
+### truffleAssert.eventEmitted(result, eventType[, filter][, message])
 The `eventEmitted` assertion checks that an event with type `eventType` has been emitted by the transaction with result `result`. A filter function can be passed along to further specify requirements for the event arguments:
 
 ```javascript
@@ -50,7 +50,7 @@ The default messages are
 ```
 Depending on the reason for the assertion failure. The default message also includes a list of events that were emitted in the passed transaction.
 
-### truffleAssert.eventNotEmitted(result, eventType, filter, message)
+### truffleAssert.eventNotEmitted(result, eventType[, filter][, message])
 The `eventNotEmitted` assertion checks that an event with type `eventType` has not been emitted by the transaction with result `result`. A filter function can be passed along to further specify requirements for the event arguments:
 
 ```javascript
@@ -103,21 +103,44 @@ let result = await truffleAssert.createTransactionResult(contractInstance, contr
 truffleAssert.eventEmitted(result, 'TestEvent');
 ```
 
-### truffleAssert.reverts(promise, message)
-Asserts that the passed promise reverts.
+### truffleAssert.fails(asyncFn[, errorType][, message])
+Asserts that the passed async contract function fails with a certain ErrorType.
+
+The different error types are defined as follows:
+```
+ErrorType = {
+  REVERT: "revert",
+  INVALID_OPCODE: "invalid opcode",
+  OUT_OF_GAS: "out of gas",
+  INVALID_JUMP: "invalid JUMP"
+}
+```
 
 ```javascript
-await truffleAssert.reverts(contractInstance.methodThatShouldRevert());
+await truffleAssert.fails(contractInstance.methodThatShouldFail(), ErrorType.OUT_OF_GAS);
+```
+
+If the errorType parameter is omitted, the function just checks for failure, regardless of cause.
+
+```javascript
+await truffleAssert.fails(contractInstance.methodThatShouldFail());
 ```
 
 Optionally, a custom message can be passed to the assertion, which will be displayed alongside the default one:
 
 ```javascript
-await truffleAssert.reverts(contractInstance.methodThatShouldRevert(), 'This method should revert');
+await truffleAssert.fails(contractInstance.methodThatShouldFail(), ErrorType.OUT_OF_GAS, 'This method should run out of gas');
 ```
 
 The default messages are
 ```javascript
-'Did not revert' // when the promise resolves
-`Did not revert, but was rejected with: ${error}` // when the promise is rejected for a different reason
+'Did not fail'
+`Expected to fail with ${errorType}, but failed with: ${error}`
+```
+
+### truffleAssert.reverts(asyncFn[, message])
+This is a convenience wrapper for `truffleAssert.fails(asyncFn, ErrorType.REVERT[, message])`
+
+```javascript
+await truffleAssert.reverts(contractInstance.methodThatShouldRevert());
 ```

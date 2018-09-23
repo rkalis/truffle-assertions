@@ -110,16 +110,23 @@ createTransactionResult = (contract, transactionHash) => {
   });
 }
 
-reverts = async (promise, message) => {
-  return promise.then(() => {
-    const assertionMessage = createAssertionMessage(message, 'Did not revert');
+fails = async (asyncFn, errorType, message) => {
+  return asyncFn.then(() => {
+    const assertionMessage = createAssertionMessage(message, 'Did not fail');
     throw new AssertionError(assertionMessage);
   }).catch(error => {
-    if (!error.message.includes("revert")) {
-      const assertionMessage = createAssertionMessage(message, `Did not revert, but was rejected with: ${error}`);
+    if (errorType !== undefined && errorType !== null && !error.message.includes(errorType)) {
+      const assertionMessage = createAssertionMessage(message, `Expected to fail with ${errorType}, but failed with: ${error}`);
       throw new AssertionError(assertionMessage);
     }
   });
+}
+
+ErrorType = {
+  REVERT: "revert",
+  INVALID_OPCODE: "invalid opcode",
+  OUT_OF_GAS: "out of gas",
+  INVALID_JUMP: "invalid JUMP"
 }
 
 module.exports = {
@@ -135,7 +142,11 @@ module.exports = {
   createTransactionResult: (contract, transactionHash) => {
     return createTransactionResult(contract, transactionHash);
   },
-  reverts: async (promise, message) => {
-    return reverts(promise, message);
-  }
+  fails: async (asyncFn, errorType, message) => {
+    return fails(asyncFn, errorType, message);
+  },
+  reverts: async (asyncFn, message) => {
+    return fails(asyncFn, ErrorType.REVERT, message);
+  },
+  ErrorType: ErrorType
 }
