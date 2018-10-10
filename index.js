@@ -93,21 +93,31 @@ assertEventNotEmittedFromTxResult = (result, eventType, filter, message) => {
   assertEventListEmpty(eventArgs, message, `Event filter for ${eventType} returned results\n${getPrettyEmittedEventsString(result)}`);
 }
 
-createTransactionResult = (contract, transactionHash) => {
-  return new Promise((resolve, reject) => {
-    const transactionReceipt = web3.eth.getTransactionReceipt(transactionHash);
-    const blockNumber = transactionReceipt.blockNumber;
-    const allEvents = contract.allEvents({fromBlock: blockNumber, toBlock: blockNumber});
-    allEvents.get((error, logs) => {
-      if (error !== null)
-        reject(error);
-      resolve({
-        tx: transactionHash,
-        receipt: transactionReceipt,
-        logs: logs.filter(log => log.transactionHash === transactionHash)
+createTransactionResult = async (contract, transactionHash) => {
+  const transactionReceipt = web3.eth.getTransactionReceipt(transactionHash);
+  const blockNumber = transactionReceipt.blockNumber;
+
+  /* Web3 1.x uses contract.getPastEvents, Web3 0.x uses contract.allEvents() */
+  /* TODO: truffle-assertions 1.0 will only support Web3 1.x / Truffle v5 */
+  if (contract.getPastEvents) {
+    const eventList = await contract.getPastEvents("allEvents", {fromBlock: blockNumber, toBlock: blockNumber});
+    return {
+      tx: transactionHash,
+      receipt: transactionReceipt,
+      logs: eventList.filter(ev => ev.transactionHash === transactionHash)
+    };
+  } else {
+    return new Promise((resolve, reject) => {
+      contract.allEvents({fromBlock: blockNumber, toBlock: blockNumber}).get((error, events) => {
+        if (error) reject(error);
+        resolve({
+          tx: transactionHash,
+          receipt: transactionReceipt,
+          logs: events.filter(ev => ev.transactionHash === transactionHash)
+        });
       });
     });
-  });
+  }
 }
 
 fails = async (asyncFn, errorType, reason, message) => {
