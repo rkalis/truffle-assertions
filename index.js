@@ -121,18 +121,17 @@ createTransactionResult = async (contract, transactionHash) => {
 }
 
 fails = async (asyncFn, errorType, reason, message) => {
-  return asyncFn.then(() => {
+  try {
+    await asyncFn;
     const assertionMessage = createAssertionMessage(message, 'Did not fail');
     throw new AssertionError(assertionMessage);
-  }).catch(error => {
-    if (
-        errorType !== undefined && errorType !== null && !error.message.includes(errorType) ||
-        reason !== undefined && reason !== null && !error.message.includes(reason)
-    ) {
+  } catch (error) {
+    if (errorType && !error.message.includes(errorType) ||
+        reason && !error.message.includes(reason)) {
       const assertionMessage = createAssertionMessage(message, `Expected to fail with ${errorType}, but failed with: ${error}`);
       throw new AssertionError(assertionMessage);
     }
-  });
+  }
 }
 
 ErrorType = {
