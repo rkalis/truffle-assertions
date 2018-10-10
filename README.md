@@ -1,8 +1,10 @@
 # truffle-assertions
 
-[![npm version](https://badge.fury.io/js/truffle-assertions.svg)](https://www.npmjs.com/package/truffle-assertions)
-[![npm](https://img.shields.io/npm/dt/truffle-assertions.svg)](https://www.npmjs.com/package/truffle-assertions)
-[![npm](https://img.shields.io/npm/l/truffle-assertions.svg)](https://www.npmjs.com/package/truffle-assertions)
+[![Build Status](https://travis-ci.org/rkalis/truffle-assertions.svg?branch=v1.0)](https://travis-ci.org/rkalis/truffle-assertions)
+[![Coverage Status](https://coveralls.io/repos/github/rkalis/truffle-assertions/badge.svg)](https://coveralls.io/github/rkalis/truffle-assertions)
+[![NPM Version](https://img.shields.io/npm/v/truffle-assertions.svg)](https://www.npmjs.com/package/truffle-assertions)
+[![NPM Monthly Downloads](https://img.shields.io/npm/dm/truffle-assertions.svg)](https://www.npmjs.com/package/truffle-assertions)
+[![NPM License](https://img.shields.io/npm/l/truffle-assertions.svg)](https://www.npmjs.com/package/truffle-assertions)
 
 This package adds additional assertions that can be used to test Ethereum smart contracts inside Truffle tests.
 
