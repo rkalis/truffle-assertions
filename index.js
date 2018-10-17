@@ -126,7 +126,7 @@ const fails = async (asyncFn, errorType, reason, message) => {
       const assertionMessage = createAssertionMessage(message, `Expected to fail with ${reason}, but failed with: ${error}`);
       throw new AssertionError(assertionMessage);
     }
-    // Eror was handled by errorType or reason
+    // Error was handled by errorType or reason
     return;
   }
   const assertionMessage = createAssertionMessage(message, 'Did not fail');
