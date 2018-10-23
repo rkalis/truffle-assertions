@@ -13,14 +13,19 @@ npm install truffle-assertions
 ```
 
 ## Usage
-To use this package, import it at the top of the Truffle test file:
+To use this package, import it at the top of the Truffle test file, and use the functions that are documented below.
 ```javascript
 const truffleAssert = require('truffle-assertions');
 ```
 
+## Tutorials
+I wrote two tutorials on using this library for checking events and asserting reverts inside smart contract tests:
+* [Checking events when testing Solidity smart contracts with Truffle](https://kalis.me/check-events-solidity-smart-contract-test-truffle/)
+* [Asserting reverts when testing Solidity smart contracts with Truffle](https://kalis.me/assert-reverts-solidity-smart-contract-test-truffle/)
+
 ## Exported functions
 
-### truffleAssert.eventEmitted(result, eventType[, filter][, message])
+### truffleAssert.eventEmitted(result, eventType\[, filter]\[, message])
 The `eventEmitted` assertion checks that an event with type `eventType` has been emitted by the transaction with result `result`. A filter function can be passed along to further specify requirements for the event arguments:
 
 ```javascript
@@ -50,7 +55,9 @@ The default messages are
 ```
 Depending on the reason for the assertion failure. The default message also includes a list of events that were emitted in the passed transaction.
 
-### truffleAssert.eventNotEmitted(result, eventType[, filter][, message])
+---
+
+### truffleAssert.eventNotEmitted(result, eventType\[, filter]\[, message])
 The `eventNotEmitted` assertion checks that an event with type `eventType` has not been emitted by the transaction with result `result`. A filter function can be passed along to further specify requirements for the event arguments:
 
 ```javascript
@@ -78,6 +85,8 @@ The default messages are
 ```
 Depending on the reason for the assertion failure. The default message also includes a list of events that were emitted in the passed transaction.
 
+---
+
 ### truffleAssert.prettyPrintEmittedEvents(result)
 Pretty prints the full list of events with their parameters, that were emitted in transaction with result `result`
 
@@ -91,6 +100,8 @@ TestEvent(testAddress = 0xe04893f0a1bdb132d66b4e7279492fcfe602f0eb, testInt: 10)
 ----------------------------------------------------------------------------------------
 ```
 
+---
+
 ### truffleAssert.createTransactionResult(contract, transactionHash)
 There can be times where we only have access to a transaction hash, and not to a transaction result object, such as with the deployment of a new contract instance using `Contract.new();`. In these cases we still want to be able to assert that certain events are or aren't emitted.
 
@@ -103,7 +114,9 @@ let result = await truffleAssert.createTransactionResult(contractInstance, contr
 truffleAssert.eventEmitted(result, 'TestEvent');
 ```
 
-### truffleAssert.fails(asyncFn[, errorType][, reason][, message])
+---
+
+### truffleAssert.fails(asyncFn\[, errorType]\[, reason]\[, message])
 Asserts that the passed async contract function fails with a certain ErrorType and reason.
 
 The different error types are defined as follows:
@@ -156,7 +169,9 @@ The default messages are
 `Expected to fail with ${errorType}, but failed with: ${error}`
 ```
 
-### truffleAssert.reverts(asyncFn[, reason][, message])
+---
+
+### truffleAssert.reverts(asyncFn\[, reason]\[, message])
 This is an alias for `truffleAssert.fails(asyncFn, truffleAssert.ErrorType.REVERT[, reason][, message])`.
 
 ```javascript
@@ -165,3 +180,6 @@ await truffleAssert.reverts(
     "only owner"
 );
 ```
+
+## Donations
+If you use this library inside your own projects and you would like to support its development, you can donate Ξ to `0x6775f0Ee4E63983501DBE7b0385bF84DBd36D69B`.
