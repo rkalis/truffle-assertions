@@ -116,6 +116,31 @@ truffleAssert.eventEmitted(result, 'TestEvent');
 
 ---
 
+### truffleAssert.passes(asyncFn\[, message])
+Asserts that the passed async contract function does not fail.
+
+```javascript
+await truffleAssert.passes(
+    contractInstance.methodThatShouldPass()
+);
+```
+
+Optionally, a custom message can be passed to the assertion, which will be displayed alongside the default one:
+
+```javascript
+await truffleAssert.passes(
+    contractInstance.methodThatShouldPass(),
+    'This method should not run out of gas'
+);
+```
+
+The default message is
+```javascript
+`Failed with ${error}`
+```
+
+---
+
 ### truffleAssert.fails(asyncFn\[, errorType]\[, reason]\[, message])
 Asserts that the passed async contract function fails with a certain ErrorType and reason.
 
