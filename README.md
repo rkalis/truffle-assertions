@@ -109,7 +109,7 @@ There can be times where we only have access to a transaction hash, and not to a
 
 ```javascript
 let contractInstance = await Contract.new();
-let result = await truffleAssert.createTransactionResult(contractInstance, contractInstance.transactionHash);
+let result = truffleAssert.createTransactionResult(contractInstance, contractInstance.transactionHash);
 
 truffleAssert.eventEmitted(result, 'TestEvent');
 ```
@@ -130,7 +130,7 @@ ErrorType = {
 ```
 
 ```javascript
-await truffleAssert.fails(
+truffleAssert.fails(
     contractInstance.methodThatShouldFail(),
     truffleAssert.ErrorType.OUT_OF_GAS
 );
@@ -139,7 +139,7 @@ await truffleAssert.fails(
 A reason can be passed to the assertion, which functions as an extra filter on the revert reason (note that this is only relevant in the case of revert, not for the other ErrorTypes). This functionality requires at least Truffle v0.5.
 
 ```javascript
-await truffleAssert.fails(
+truffleAssert.fails(
     contractInstance.methodThatShouldFail(),
     truffleAssert.ErrorType.REVERT,
     "only owner"
@@ -149,13 +149,13 @@ await truffleAssert.fails(
 If the errorType parameter is omitted or set to null, the function just checks for failure, regardless of cause.
 
 ```javascript
-await truffleAssert.fails(contractInstance.methodThatShouldFail());
+truffleAssert.fails(contractInstance.methodThatShouldFail());
 ```
 
 Optionally, a custom message can be passed to the assertion, which will be displayed alongside the default one:
 
 ```javascript
-await truffleAssert.fails(
+truffleAssert.fails(
     contractInstance.methodThatShouldFail(),
     truffleAssert.ErrorType.OUT_OF_GAS,
     null,
@@ -175,7 +175,7 @@ The default messages are
 This is an alias for `truffleAssert.fails(asyncFn, truffleAssert.ErrorType.REVERT[, reason][, message])`.
 
 ```javascript
-await truffleAssert.reverts(
+truffleAssert.reverts(
     contractInstance.methodThatShouldRevert(),
     "only owner"
 );

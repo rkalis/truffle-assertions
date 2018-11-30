@@ -153,14 +153,14 @@ module.exports = {
   prettyPrintEmittedEvents: (result) => {
     console.log(getPrettyEmittedEventsString(result));
   },
-  createTransactionResult: (contract, transactionHash) => {
-    return createTransactionResult(contract, transactionHash);
+  createTransactionResult: async (contract, transactionHash) => {
+    return await createTransactionResult(contract, transactionHash);
   },
   fails: async (asyncFn, errorType, reason, message) => {
-    return fails(asyncFn, errorType, reason, message);
+    return await fails(asyncFn, errorType, reason, message);
   },
   reverts: async (asyncFn, reason, message) => {
-    return fails(asyncFn, ErrorType.REVERT, reason, message);
+    return await fails(asyncFn, ErrorType.REVERT, reason, message);
   },
   ErrorType: ErrorType
 }
