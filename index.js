@@ -120,6 +120,15 @@ createTransactionResult = async (contract, transactionHash) => {
   }
 }
 
+passes = async (asyncFn, message) => {
+  try {
+    await asyncFn;
+  } catch (error) {
+    const assertionMessage = createAssertionMessage(message, `Failed with ${error}`);
+    throw new AssertionError(assertionMessage);
+  }
+}
+
 fails = async (asyncFn, errorType, reason, message) => {
   try {
     await asyncFn;
@@ -155,6 +164,9 @@ module.exports = {
   },
   createTransactionResult: (contract, transactionHash) => {
     return createTransactionResult(contract, transactionHash);
+  },
+  passes: async (asyncFn, message) => {
+    return passes(asyncFn, message);
   },
   fails: async (asyncFn, errorType, reason, message) => {
     return fails(asyncFn, errorType, reason, message);
