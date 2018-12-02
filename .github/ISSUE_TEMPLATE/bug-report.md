@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Create a bug report to help us improve
 
 ---
 
@@ -17,3 +17,4 @@ A clear and concise description of what you expected to happen.
 Truffle version: x.x
 Web3 version: x.x
 truffle-assertions version: x.x
+(ganache-cli version: x.x)
