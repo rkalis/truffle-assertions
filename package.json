@@ -1,6 +1,6 @@
 {
   "name": "truffle-assertions",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Additional assertions and utilities for testing Ethereum smart contracts in Truffle unit tests",
   "main": "index.js",
   "files": [
