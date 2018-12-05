@@ -94,12 +94,11 @@ assertEventNotEmittedFromTxResult = (result, eventType, filter, message) => {
 }
 
 createTransactionResult = async (contract, transactionHash) => {
-  const transactionReceipt = web3.eth.getTransactionReceipt(transactionHash);
-  const blockNumber = transactionReceipt.blockNumber;
-
   /* Web3 1.x uses contract.getPastEvents, Web3 0.x uses contract.allEvents() */
   /* TODO: truffle-assertions 1.0 will only support Web3 1.x / Truffle v5 */
   if (contract.getPastEvents) {
+    const transactionReceipt = await web3.eth.getTransactionReceipt(transactionHash);
+    const { blockNumber } = transactionReceipt;
     const eventList = await contract.getPastEvents("allEvents", {fromBlock: blockNumber, toBlock: blockNumber});
     return {
       tx: transactionHash,
@@ -108,6 +107,8 @@ createTransactionResult = async (contract, transactionHash) => {
     };
   } else {
     return new Promise((resolve, reject) => {
+      const transactionReceipt = web3.eth.getTransactionReceipt(transactionHash);
+      const { blockNumber } = transactionReceipt;
       contract.allEvents({fromBlock: blockNumber, toBlock: blockNumber}).get((error, events) => {
         if (error) reject(error);
         resolve({
