@@ -4,9 +4,9 @@
   "description": "Additional assertions and utilities for testing Ethereum smart contracts in Truffle unit tests",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha",
-    "test-with-cov": "./node_modules/.bin/nyc npm test && ./node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls",
-    "lint": "./node_modules/.bin/eslint index.js test/*.js"
+    "test": "nyc mocha",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "lint": "eslint index.js test/*.js"
   },
   "nyc": {
     "temp-directory": "./node_modules/.nyc_output"
