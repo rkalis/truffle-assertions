@@ -1,8 +1,11 @@
 {
   "name": "truffle-assertions",
-  "version": "0.3.1",
-  "description": "Additional assertions and utilities for testing Ethereum smart contracts Truffle unit tests",
+  "version": "0.7.1",
+  "description": "Additional assertions and utilities for testing Ethereum smart contracts in Truffle unit tests",
   "main": "index.js",
+  "files": [
+    "index.js"
+  ],
   "scripts": {},
   "keywords": [
     "truffle",
@@ -25,6 +28,6 @@
   "homepage": "https://github.com/rkalis/truffle-assertions",
   "dependencies": {
     "assertion-error": "^1.1.0",
-    "lodash": "^4.17.5"
+    "web3": "^1.0.0-beta.35"
   }
 }
