@@ -136,7 +136,7 @@ fails = async (asyncFn, errorType, reason, message) => {
   } catch (error) {
     if (errorType && !error.message.includes(errorType) ||
         reason && !error.message.includes(reason)) {
-      const assertionMessage = createAssertionMessage(message, `Expected to fail with ${errorType}, but failed with: ${error}`);
+      const assertionMessage = createAssertionMessage(message, `Expected to fail with ${[errorType, reason].join(' ').trim()}, but failed with: ${error}`);
       throw new AssertionError(assertionMessage);
     }
     // Error was handled by errorType or reason
