@@ -206,5 +206,9 @@ await truffleAssert.reverts(
 );
 ```
 
+## Related projects
+
+- [truffle-events](https://github.com/zulhfreelancer/truffle-events) — 3rd party add-on to this project with 'deep events' support. You can test emitted events in other contracts, provided they are in the same transaction i.e. event A (contract A) and event B (contract B) are produced in the same transaction.
+
 ## Donations
 If you use this library inside your own projects and you would like to support its development, you can donate Ξ to `0x6775f0Ee4E63983501DBE7b0385bF84DBd36D69B`.

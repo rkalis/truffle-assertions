@@ -43,7 +43,7 @@ getPrettyEmittedEventsString = (result) => {
   if (result.logs.length === 0) {
     return `    No events emitted in tx ${result.tx}\n`;
   }
-  let string = `    Events emitted in tx ${result.tx}:\n`;
+  let string = `\n    Events emitted in tx ${result.tx}:\n`;
   string += `    ----------------------------------------------------------------------------------------\n`;
   for (const emittedEvent of result.logs) {
     string += `    ${getPrettyEventString(emittedEvent.event, emittedEvent.args)}\n`;
