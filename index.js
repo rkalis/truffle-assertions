@@ -39,16 +39,17 @@ getPrettyEventString = (eventType, args) => {
 /* Returns a list of all emitted events in a transaction,
  * using the format of getPrettyEventString
  */
-getPrettyEmittedEventsString = (result) => {
+getPrettyEmittedEventsString = (result, indentationSize) => {
+  let indentation = ' '.repeat(indentationSize);
   if (result.logs.length === 0) {
-    return `No events emitted in tx ${result.tx}\n`;
+    return `${indentation}No events emitted in tx ${result.tx}\n`;
   }
-  let string = `Events emitted in tx ${result.tx}:\n`;
-  string += `----------------------------------------------------------------------------------------\n`;
+  let string = `${indentation}Events emitted in tx ${result.tx}:\n`;
+  string += `${indentation}----------------------------------------------------------------------------------------\n`;
   for (const emittedEvent of result.logs) {
-    string += `${getPrettyEventString(emittedEvent.event, emittedEvent.args)}\n`;
+    string += `${indentation}${getPrettyEventString(emittedEvent.event, emittedEvent.args)}\n`;
   }
-  string += `----------------------------------------------------------------------------------------\n`;
+  string += `${indentation}----------------------------------------------------------------------------------------\n`;
   return string;
 }
 
@@ -160,8 +161,8 @@ module.exports = {
   eventNotEmitted: (result, eventType, filter, message) => {
     assertEventNotEmittedFromTxResult(result, eventType, filter, message);
   },
-  prettyPrintEmittedEvents: (result) => {
-    console.log(getPrettyEmittedEventsString(result));
+  prettyPrintEmittedEvents: (result, indentationSize) => {
+    console.log(getPrettyEmittedEventsString(result, indentationSize));
   },
   createTransactionResult: (contract, transactionHash) => {
     return createTransactionResult(contract, transactionHash);
