@@ -79,7 +79,15 @@ describe('reverts', () => {
 });
 
 describe('passes', () => {
-  it('TODO', () => {
-    assert.isDefined(truffleAssert);
+  it('should fail when function fails', async () => {
+    await assert.isRejected(truffleAssert.passes(reverts()), AssertionError);
+  });
+
+  it('should return custom message on failure', async () => {
+    await assert.isRejected(truffleAssert.passes(reverts(), 'Should pass'), /Should pass/);
+  });
+
+  it('should pass when function passes', async () => {
+    await truffleAssert.passes(passes());
   });
 });
