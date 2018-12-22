@@ -1,5 +1,5 @@
 const AssertionError = require('assertion-error');
-const web3 = require('web3');
+/* global web3 */
 
 /* Creates a new assertion message, containing the passedAssertionMessage and
  * the defaultAssertion message when passedAssertionMessage exists, otherwise
@@ -41,7 +41,7 @@ const getPrettyEventString = (eventType, args) => {
  * using the format of getPrettyEventString
  */
 const getPrettyEmittedEventsString = (result, indentationSize) => {
-  let indentation = ' '.repeat(indentationSize);
+  const indentation = ' '.repeat(indentationSize);
   if (result.logs.length === 0) {
     return `${indentation}No events emitted in tx ${result.tx}\n`;
   }
@@ -90,9 +90,6 @@ const assertEventNotEmittedFromTxResult = (result, eventType, filter, message) =
 };
 
 const createTransactionResult = async (contract, transactionHash) => {
-  const transactionReceipt = web3.eth.getTransactionReceipt(transactionHash);
-  const { blockNumber } = transactionReceipt;
-
   /* Web3 1.x uses contract.getPastEvents, Web3 0.x uses contract.allEvents() */
   /* TODO: truffle-assertions 1.0 will only support Web3 1.x / Truffle v5 */
   if (contract.getPastEvents) {
@@ -127,7 +124,7 @@ const passes = async (asyncFn, message) => {
     const assertionMessage = createAssertionMessage(message, `Failed with ${error}`);
     throw new AssertionError(assertionMessage);
   }
-}
+};
 
 const fails = async (asyncFn, errorType, reason, message) => {
   try {
