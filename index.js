@@ -40,16 +40,17 @@ const getPrettyEventString = (eventType, args) => {
 /* Returns a list of all emitted events in a transaction,
  * using the format of getPrettyEventString
  */
-const getPrettyEmittedEventsString = (result) => {
+const getPrettyEmittedEventsString = (result, indentationSize) => {
+  let indentation = ' '.repeat(indentationSize);
   if (result.logs.length === 0) {
-    return `    No events emitted in tx ${result.tx}\n`;
+    return `${indentation}No events emitted in tx ${result.tx}\n`;
   }
-  let string = `    Events emitted in tx ${result.tx}:\n`;
-  string += '    ----------------------------------------------------------------------------------------\n';
+  let string = `${indentation}Events emitted in tx ${result.tx}:\n`;
+  string += `${indentation}----------------------------------------------------------------------------------------\n`;
   result.logs.forEach((emittedEvent) => {
-    string += `    ${getPrettyEventString(emittedEvent.event, emittedEvent.args)}\n`;
+    string += `${indentation}${getPrettyEventString(emittedEvent.event, emittedEvent.args)}\n`;
   });
-  string += '    ----------------------------------------------------------------------------------------\n';
+  string += `${indentation}----------------------------------------------------------------------------------------\n`;
   return string;
 };
 
@@ -95,6 +96,8 @@ const createTransactionResult = async (contract, transactionHash) => {
   /* Web3 1.x uses contract.getPastEvents, Web3 0.x uses contract.allEvents() */
   /* TODO: truffle-assertions 1.0 will only support Web3 1.x / Truffle v5 */
   if (contract.getPastEvents) {
+    const transactionReceipt = await web3.eth.getTransactionReceipt(transactionHash);
+    const { blockNumber } = transactionReceipt;
     const eventList = await contract.getPastEvents('allEvents', { fromBlock: blockNumber, toBlock: blockNumber });
     return {
       tx: transactionHash,
@@ -104,6 +107,8 @@ const createTransactionResult = async (contract, transactionHash) => {
   }
 
   return new Promise((resolve, reject) => {
+    const transactionReceipt = web3.eth.getTransactionReceipt(transactionHash);
+    const { blockNumber } = transactionReceipt;
     contract.allEvents({ fromBlock: blockNumber, toBlock: blockNumber }).get((error, events) => {
       if (error) reject(error);
       resolve({
@@ -114,6 +119,15 @@ const createTransactionResult = async (contract, transactionHash) => {
     });
   });
 };
+
+const passes = async (asyncFn, message) => {
+  try {
+    await asyncFn;
+  } catch (error) {
+    const assertionMessage = createAssertionMessage(message, `Failed with ${error}`);
+    throw new AssertionError(assertionMessage);
+  }
+}
 
 const fails = async (asyncFn, errorType, reason, message) => {
   try {
@@ -147,11 +161,14 @@ module.exports = {
   eventNotEmitted: (result, eventType, filter, message) => {
     assertEventNotEmittedFromTxResult(result, eventType, filter, message);
   },
-  prettyPrintEmittedEvents: (result) => {
-    console.log(getPrettyEmittedEventsString(result));
+  prettyPrintEmittedEvents: (result, indentationSize) => {
+    console.log(getPrettyEmittedEventsString(result, indentationSize));
   },
   createTransactionResult: (contract, transactionHash) => (
     createTransactionResult(contract, transactionHash)
+  ),
+  passes: async (asyncFn, message) => (
+    passes(asyncFn, message)
   ),
   fails: async (asyncFn, errorType, reason, message) => (
     fails(asyncFn, errorType, reason, message)
