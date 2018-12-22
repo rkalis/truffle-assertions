@@ -1,4 +1,4 @@
-pragma solidity ^0.4.23;
+pragma solidity ^0.5.0;
 
 contract Casino {
     address public owner;
@@ -12,7 +12,7 @@ contract Casino {
 
     function kill() external {
         require(msg.sender == owner, "Only the owner can kill this contract");
-        selfdestruct(owner);
+        selfdestruct(address(uint160(owner)));
     }
 
     function fund() external payable {}
@@ -41,7 +41,7 @@ contract Casino {
         assert(amount > 0);
         assert(amount <= address(this).balance);
 
-        winner.transfer(amount);
+        address(uint160(winner)).transfer(amount);
         emit Payout(winner, amount);
     }
 }
