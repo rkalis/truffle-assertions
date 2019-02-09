@@ -112,6 +112,8 @@ There can be times where we only have access to a transaction hash, and not to a
 
 `truffle-assertions` offers the possibility to create a transaction result object from a contract instance and a transaction hash, which can then be used in the other functions that the library offers.
 
+**Note:** This function assumes that web3 is injected into the tests, which truffle does automatically. If you're not using truffle, you should import web3 manually at the top of your test file.
+
 ```javascript
 let contractInstance = await Contract.new();
 let result = await truffleAssert.createTransactionResult(contractInstance, contractInstance.transactionHash);
