@@ -25,8 +25,9 @@ I wrote two tutorials on using this library for checking events and asserting re
 * [Checking events when testing Solidity smart contracts with Truffle](https://kalis.me/check-events-solidity-smart-contract-test-truffle/)
 * [Asserting reverts when testing Solidity smart contracts with Truffle](https://kalis.me/assert-reverts-solidity-smart-contract-test-truffle/)
 
-I also gave a talk at TruffleCon 2018 that explains a few different use cases of the library:
-* [TruffleCon 2018: Using events to unit test smart contracts with Truffle](https://www.youtube.com/watch?v=0yjlU1vx0HM) ([Slides](/docs/trufflecon-2018-presentation-slides.pdf))
+I also gave a two talks that explain a few different use cases of the library:
+* [TruffleCon 2018: Using events to unit test smart contracts with Truffle](https://youtu.be/0yjlU1vx0HM) ([Slides](/docs/trufflecon-2018-presentation-slides.pdf))
+* [EthCC 201: Using events to unit test smart contracts](https://youtu.be/GON3qyFdUtE) ([Slides](/docs/ethcc-2019-presentation-slides.pdf))
 
 ## Exported functions
 
