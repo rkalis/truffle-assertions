@@ -27,7 +27,7 @@ I wrote two tutorials on using this library for checking events and asserting re
 
 I also gave a two talks that explain a few different use cases of the library:
 * [TruffleCon 2018: Using events to unit test smart contracts with Truffle](https://youtu.be/0yjlU1vx0HM) ([Slides](/docs/trufflecon-2018-presentation-slides.pdf))
-* [EthCC 201: Using events to unit test smart contracts](https://youtu.be/GON3qyFdUtE) ([Slides](/docs/ethcc-2019-presentation-slides.pdf))
+* [EthCC 2019: Using events to unit test smart contracts](https://youtu.be/GON3qyFdUtE) ([Slides](/docs/ethcc-2019-presentation-slides.pdf))
 
 ## Exported functions
 
