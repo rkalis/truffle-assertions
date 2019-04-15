@@ -2,6 +2,7 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const { fake } = require('sinon');
 const truffleAssert = require('..');
+// const t = require('truff');
 
 chai.use(chaiAsPromised);
 const { assert, AssertionError } = chai;
@@ -10,6 +11,14 @@ const { ErrorType } = truffleAssert;
 const passes = fake.resolves();
 const reverts = fake.rejects(new Error('VM Exception while processing transaction: revert'));
 const revertsWithReason = fake.rejects(new Error('VM Exception while processing transaction: revert Only owner'));
+const revertsOnRinkeby = fake.rejects(
+  new Error(
+    'Transaction: 0x5b4dc57076030dc52c18e15410bccaa1962db7f636204b8222469e888651320d exited with an error (status 0).\n'
+    + 'Please check that the transaction:\n'
+    + '- satisfies all conditions set by Solidity `require` statements.\n'
+    + '- does not trigger a Solidity `revert` statement.',
+  ),
+);
 
 describe('fails', () => {
   it('should fail when function passes', async () => {
@@ -62,6 +71,13 @@ describe('reverts', () => {
     );
   });
 
+  it('should fail when passing revert reason to Rinkeby', async () => {
+    await assert.isRejected(
+      truffleAssert.reverts(revertsOnRinkeby(), 'Only owner'),
+      AssertionError,
+    );
+  });
+
   it('should return custom message on failure', async () => {
     await assert.isRejected(
       truffleAssert.reverts(revertsWithReason(), 'Only administrator', 'Only administrator'),
@@ -75,6 +91,10 @@ describe('reverts', () => {
 
   it('should pass when function reverts with correct reason', async () => {
     await truffleAssert.reverts(revertsWithReason(), 'Only owner');
+  });
+
+  it('should pass when function reverts on Rinkeby', async () => {
+    await truffleAssert.reverts(revertsOnRinkeby());
   });
 });
 
