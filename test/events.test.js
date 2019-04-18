@@ -14,9 +14,15 @@ describe('eventEmitted', () => {
     assert.throws(() => truffleAssert.eventEmitted(truffleV4loseResult, 'Payout', null, 'Should pay'), /Should pay/);
   });
 
-  it('should fail when event is emitted with incorrect arguments', () => {
+  it('should fail when event is emitted with incorrect arguments given as function', () => {
     assert.throws(() => (
       truffleAssert.eventEmitted(truffleV4loseResult, 'Play', ev => ev.betNumber === ev.winningNumber)
+    ), AssertionError);
+  });
+
+  it('should fail when event is emitted with incorrect arguments given as object', () => {
+    assert.throws(() => (
+      truffleAssert.eventEmitted(truffleV4loseResult, 'Play', {betNumber: '1', winningNumber: '1'})
     ), AssertionError);
   });
 
@@ -30,8 +36,17 @@ describe('eventEmitted', () => {
     truffleAssert.eventEmitted(truffleV4winResult, 'Payout');
   });
 
-  it('should pass when event is emitted with correct arguments', () => {
+  it('should pass when event is emitted with correct arguments given as function', () => {
     truffleAssert.eventEmitted(truffleV4winResult, 'Play', ev => ev.betNumber === ev.winningNumber);
+  });
+
+  it('should pass when event is emitted with correct arguments given as an object', () => {
+    truffleAssert.eventEmitted(truffleV4winResult, 'Play', {
+      player: '0x24b844a5481ffdfad015c721364cafad49468379',
+      qid: '0x70e6c24f8eb30062d4da343927b31a39291c70cf5f70401e4bff827661e6ba04',
+      betSize: '9000000000000000',
+      betNumber: '0',
+      winningNumber: '0'});
   });
 });
 
@@ -60,8 +75,17 @@ describe('eventNotEmitted', () => {
     truffleAssert.eventNotEmitted(truffleV4loseResult, 'Payout');
   });
 
-  it('should pass when event with specified arguments is not emitted', () => {
+  it('should pass when event with specified arguments given as function is not emitted', () => {
     truffleAssert.eventNotEmitted(truffleV4winResult, 'Play', ev => ev.betNumber !== ev.winningNumber);
+  });
+
+  it('should pass when event with specified arguments given as object is not emitted', () => {
+    truffleAssert.eventNotEmitted(truffleV4winResult, 'Play', {
+      player: '0x24b844a5481ffdfad015c721364cafad49468379',
+      qid: '0x70e6c24f8eb30062d4da343927b31a39291c70cf5f70401e4bff827661e6ba04',
+      betSize: '9000000000000000',
+      betNumber: '1',
+      winningNumber: '0'});
   });
 });
 
