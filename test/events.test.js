@@ -48,6 +48,19 @@ describe('eventEmitted', () => {
       betNumber: '0',
       winningNumber: '0'});
   });
+
+  it('should pass when event is emitted with correct paritial arguments given as an object', () => {
+    truffleAssert.eventEmitted(truffleV4winResult, 'Play', {
+      player: '0x24b844a5481ffdfad015c721364cafad49468379',
+      qid: '0x70e6c24f8eb30062d4da343927b31a39291c70cf5f70401e4bff827661e6ba04'
+    });
+  });
+
+  it('should pass when event is emitted with correct paritial arguments (number) given as an objec', () => {
+    truffleAssert.eventEmitted(truffleV4winResult, 'Play', {
+      betNumber: '0',
+    });
+  });
 });
 
 describe('eventNotEmitted', () => {
@@ -86,6 +99,12 @@ describe('eventNotEmitted', () => {
       betSize: '9000000000000000',
       betNumber: '1',
       winningNumber: '0'});
+  });
+
+  it('should pass when event with specified partitial arguments given as object is not emitted', () => {
+    truffleAssert.eventNotEmitted(truffleV4winResult, 'Play', {
+      betNumber: '2',
+    });
   });
 });
 
