@@ -9,7 +9,8 @@
   "scripts": {
     "test": "nyc mocha",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "lint": "eslint index.js test/*.js"
+    "lint": "eslint index.js test/*.js",
+    "lint-fix": "eslint --fix index.js test/*.js"
   },
   "nyc": {
     "temp-directory": "./node_modules/.nyc_output"

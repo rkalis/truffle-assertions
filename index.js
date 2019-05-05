@@ -153,22 +153,23 @@ const ErrorType = {
   INVALID_JUMP: 'invalid JUMP',
 };
 
-const takeSameKeys = (filterOrObject, obj) => Object.keys(filterOrObject).reduce((accumulator, key) => {
-  if (obj.hasOwnProperty(key)) {
-    accumulator[key] = obj[key];
-  }
-  return accumulator
-}, {})
+const takeSameKeys = (filterOrObject, obj) => Object.keys(filterOrObject)
+  .reduce((accumulator, key) => {
+    if (obj.hasOwnProperty(key)) {
+      accumulator[key] = obj[key];
+    }
+    return accumulator;
+  }, {});
 
 const toFilterFunction = (filterOrObject) => {
   if (filterOrObject !== null && typeof filterOrObject === 'object') {
     return (obj) => {
-      const objectToCompare = takeSameKeys(filterOrObject, obj)
+      const objectToCompare = takeSameKeys(filterOrObject, obj);
       return isEqual(filterOrObject, objectToCompare);
-    }
+    };
   }
   return filterOrObject;
-}
+};
 
 module.exports = {
   eventEmitted: (result, eventType, filterOrObject, message) => {
