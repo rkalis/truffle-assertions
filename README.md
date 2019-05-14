@@ -40,6 +40,12 @@ truffleAssert.eventEmitted(result, 'TestEvent', (ev) => {
 });
 ```
 
+Alternatively, a filter object can be passed in place of a function. If an object is passed, this object will be matched against the event's arguments. This object does not need to include all the event's arguments; only the included ones will be used in the comparison.
+
+```javascript
+truffleAssert.eventEmitted(result, 'TestEvent', { param1: 10, param2: 20 });
+```
+
 When the `filter` parameter is omitted or set to null, the assertion checks just for event type:
 
 ```javascript
@@ -70,6 +76,12 @@ The `eventNotEmitted` assertion checks that an event with type `eventType` has n
 truffleAssert.eventNotEmitted(result, 'TestEvent', (ev) => {
     return ev.param1 === 10 && ev.param2 === ev.param3;
 });
+```
+
+Alternatively, a filter object can be passed in place of a function. If an object is passed, this object will be matched against the event's arguments. This object does not need to include all the event's arguments; only the included ones will be used in the comparison.
+
+```javascript
+truffleAssert.eventNotEmitted(result, 'TestEvent', { param1: 10, param2: 20 });
 ```
 
 When the `filter` parameter is omitted or set to null, the assertion checks just for event type:
@@ -153,7 +165,7 @@ The default message is
 Asserts that the passed async contract function fails with a certain ErrorType and reason.
 
 The different error types are defined as follows:
-```
+```javascript
 ErrorType = {
   REVERT: "revert",
   INVALID_OPCODE: "invalid opcode",
@@ -216,7 +228,7 @@ await truffleAssert.reverts(
 
 ## Related projects
 
-- [truffle-events](https://github.com/zulhfreelancer/truffle-events) — 3rd party add-on to this project with 'deep events' support. You can test emitted events in other contracts, provided they are in the same transaction i.e. event A (contract A) and event B (contract B) are produced in the same transaction.
+* [truffle-events](https://github.com/zulhfreelancer/truffle-events) — 3rd party add-on to this project with 'deep events' support. You can test emitted events in other contracts, provided they are in the same transaction i.e. event A (contract A) and event B (contract B) are produced in the same transaction.
 
 ## Donations
 If you use this library inside your own projects and you would like to support its development, you can donate Ξ to `0x6775f0Ee4E63983501DBE7b0385bF84DBd36D69B`.
