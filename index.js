@@ -1,4 +1,6 @@
 const AssertionError = require('assertion-error');
+const isEqual = require('lodash.isequal');
+
 /* global web3 */
 
 /* Creates a new assertion message, containing the passedAssertionMessage and
@@ -151,12 +153,30 @@ const ErrorType = {
   INVALID_JUMP: 'invalid JUMP',
 };
 
+const takeSameKeys = (filterOrObject, obj) => Object.keys(filterOrObject)
+  .reduce((accumulator, key) => {
+    if (obj.hasOwnProperty(key)) {
+      accumulator[key] = obj[key];
+    }
+    return accumulator;
+  }, {});
+
+const toFilterFunction = (filterOrObject) => {
+  if (filterOrObject !== null && typeof filterOrObject === 'object') {
+    return (obj) => {
+      const objectToCompare = takeSameKeys(filterOrObject, obj);
+      return isEqual(filterOrObject, objectToCompare);
+    };
+  }
+  return filterOrObject;
+};
+
 module.exports = {
-  eventEmitted: (result, eventType, filter, message) => {
-    assertEventEmittedFromTxResult(result, eventType, filter, message);
+  eventEmitted: (result, eventType, filterOrObject, message) => {
+    assertEventEmittedFromTxResult(result, eventType, toFilterFunction(filterOrObject), message);
   },
-  eventNotEmitted: (result, eventType, filter, message) => {
-    assertEventNotEmittedFromTxResult(result, eventType, filter, message);
+  eventNotEmitted: (result, eventType, filterOrObject, message) => {
+    assertEventNotEmittedFromTxResult(result, eventType, toFilterFunction(filterOrObject), message);
   },
   prettyPrintEmittedEvents: (result, indentationSize) => {
     console.log(getPrettyEmittedEventsString(result, indentationSize));
