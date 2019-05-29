@@ -57,10 +57,16 @@ describe('eventEmitted', () => {
     });
   });
 
-  it('should pass when event is emitted with correct paritial arguments (number) given as an objec', () => {
+  it('should pass when event is emitted with correct paritial arguments (number) given as an object', () => {
     truffleAssert.eventEmitted(truffleV4winResult, 'Play', {
       betNumber: '0',
     });
+  });
+
+  it('should throw an error when contract instance is passed instead of tx result', () => {
+    assert.throws(() => (
+      truffleAssert.eventEmitted({}, 'Play', ev => ev.betNumber === ev.winningNumber)
+    ), truffleAssert.InvalidTxResultError);
   });
 });
 
@@ -107,6 +113,12 @@ describe('eventNotEmitted', () => {
     truffleAssert.eventNotEmitted(truffleV4winResult, 'Play', {
       betNumber: '2',
     });
+  });
+
+  it('should throw an error when contract instance is passed instead of tx result', () => {
+    assert.throws(() => (
+      truffleAssert.eventNotEmitted({}, 'Play')
+    ), truffleAssert.InvalidTxResultError);
   });
 });
 

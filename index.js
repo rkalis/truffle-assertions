@@ -3,6 +3,17 @@ const isEqual = require('lodash.isequal');
 
 /* global web3 */
 
+class InvalidTxResultError extends Error {}
+
+const validateResult = (result) => {
+  if (!result.logs) {
+    throw new InvalidTxResultError(
+      'First argument is not a transaction result. Did you accidentally pass a contract instance or transaction receipt?\n'
+      + 'If that is the case, check out truffleAssert.createTransactionResult in the documentation.',
+    );
+  }
+};
+
 /* Creates a new assertion message, containing the passedAssertionMessage and
  * the defaultAssertion message when passedAssertionMessage exists, otherwise
  * just the default.
@@ -57,6 +68,8 @@ const getPrettyEmittedEventsString = (result, indentationSize) => {
 };
 
 const assertEventEmittedFromTxResult = (result, eventType, filter, message) => {
+  validateResult(result);
+
   /* Filter correct event types */
   const events = result.logs.filter(entry => entry.event === eventType);
 
@@ -76,6 +89,8 @@ const assertEventEmittedFromTxResult = (result, eventType, filter, message) => {
 };
 
 const assertEventNotEmittedFromTxResult = (result, eventType, filter, message) => {
+  validateResult(result);
+
   /* Filter correct event types */
   const events = result.logs.filter(entry => entry.event === eventType);
 
@@ -194,4 +209,5 @@ module.exports = {
     fails(asyncFn, ErrorType.REVERT, reason, message)
   ),
   ErrorType,
+  InvalidTxResultError,
 };
