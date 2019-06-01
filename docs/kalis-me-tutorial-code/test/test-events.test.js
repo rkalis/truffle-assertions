@@ -10,25 +10,22 @@ contract('Casino', (accounts) => {
 
     // build up and tear down a new Casino contract before each test
     beforeEach(async () => {
-        casino = await Casino.new({from: fundingAccount});
-        await casino.fund({from: fundingAccount, value: fundingSize});
+        casino = await Casino.new({ from: fundingAccount });
+        await casino.fund({ from: fundingAccount, value: fundingSize });
         assert.equal(await web3.eth.getBalance(casino.address), fundingSize);
     });
 
     afterEach(async () => {
-        await casino.kill({from: fundingAccount});
+        await casino.kill({ from: fundingAccount });
     });
 
     it("should lose when bet on the wrong number", async () => {
-        // given
         let betSize = 1;
         // we know what the winning number will be since we know the algorithm
         let betNumber = (await web3.eth.getBlock("latest")).number % 10 + 1;
 
-        // when
-        let tx = await casino.bet(betNumber, {from: bettingAccount, value: betSize});
+        let tx = await casino.bet(betNumber, { from: bettingAccount, value: betSize });
 
-        // then
         // player should be the same as the betting account, and the betted number should not equal the winning number
         truffleAssert.eventEmitted(tx, 'Play', (ev) => {
             return ev.player === bettingAccount && !ev.betNumber.eq(ev.winningNumber);
@@ -40,15 +37,12 @@ contract('Casino', (accounts) => {
     });
 
     it("should win when bet on the right number", async () => {
-        // given
         let betSize = 1;
         // we know what the winning number will be since we know the algorithm
         let betNumber = ((await web3.eth.getBlock("latest")).number + 1) % 10 + 1;
 
-        // when
-        let tx = await casino.bet(betNumber, {from: bettingAccount, value: betSize});
+        let tx = await casino.bet(betNumber, { from: bettingAccount, value: betSize });
 
-        // then
         // player should be the same as the betting account, and the betted number should equal the winning number
         truffleAssert.eventEmitted(tx, 'Play', (ev) => {
             return ev.player === bettingAccount && ev.betNumber.eq(ev.winningNumber);
