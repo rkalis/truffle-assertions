@@ -16,7 +16,7 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "mocha": "^5.2.0",
-    "truffle-assertions": "^0.7.0"
+    "truffle-assertions": "^0.9.0"
   },
   "dependencies": {}
 }

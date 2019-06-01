@@ -1,10 +1,10 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.5.8;
 
 contract Casino {
-    address public owner;
+    address payable public owner;
 
-    event Play(address indexed player, uint256 betSize, uint8 betNumber, uint8 winningNumber);
-    event Payout(address winner, uint256 payout);
+    event Play(address payable indexed player, uint256 betSize, uint8 betNumber, uint8 winningNumber);
+    event Payout(address payable winner, uint256 payout);
 
     constructor() public {
         owner = msg.sender;
@@ -12,7 +12,7 @@ contract Casino {
 
     function kill() external {
         require(msg.sender == owner, "Only the owner can kill this contract");
-        selfdestruct(address(uint160(owner)));
+        selfdestruct(owner);
     }
 
     function fund() external payable {}
@@ -37,11 +37,11 @@ contract Casino {
         return uint8(block.number % 10 + 1); // Don't do this in production
     }
 
-    function payout(address winner, uint256 amount) internal {
+    function payout(address payable winner, uint256 amount) internal {
         assert(amount > 0);
         assert(amount <= address(this).balance);
 
-        address(uint160(winner)).transfer(amount);
+        winner.transfer(amount);
         emit Payout(winner, amount);
     }
 }
