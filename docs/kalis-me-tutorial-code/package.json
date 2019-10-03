@@ -15,8 +15,10 @@
     "bignumber.js": "^8.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
+    "dotenv": "^8.1.0",
     "mocha": "^5.2.0",
-    "truffle-assertions": "^0.9.0"
+    "truffle-assertions": "^0.9.0",
+    "truffle-hdwallet-provider": "^1.0.17"
   },
   "dependencies": {}
 }
