@@ -71,7 +71,7 @@ const assertEventEmittedFromTxResult = (result, eventType, filter, message) => {
   validateResult(result);
 
   /* Filter correct event types */
-  const events = result.logs.filter(entry => entry.event === eventType);
+  const events = result.logs.filter((entry) => entry.event === eventType);
 
   // TODO: Move the getPrettyEmittedEventsString to the assertion functions
   assertEventListNotEmpty(events, message, `Event of type ${eventType} was not emitted\n${getPrettyEmittedEventsString(result)}`);
@@ -82,7 +82,7 @@ const assertEventEmittedFromTxResult = (result, eventType, filter, message) => {
   }
 
   /* Filter correct arguments */
-  let eventArgs = events.map(entry => entry.args);
+  let eventArgs = events.map((entry) => entry.args);
 
   eventArgs = eventArgs.filter(filter);
   assertEventListNotEmpty(eventArgs, message, `Event filter for ${eventType} returned no results\n${getPrettyEmittedEventsString(result)}`);
@@ -92,7 +92,7 @@ const assertEventNotEmittedFromTxResult = (result, eventType, filter, message) =
   validateResult(result);
 
   /* Filter correct event types */
-  const events = result.logs.filter(entry => entry.event === eventType);
+  const events = result.logs.filter((entry) => entry.event === eventType);
 
   /* Only check filtered events if there is no provided filter function */
   if (filter === undefined || filter === null) {
@@ -101,7 +101,7 @@ const assertEventNotEmittedFromTxResult = (result, eventType, filter, message) =
   }
 
   /* Filter correct arguments */
-  let eventArgs = events.map(entry => entry.args);
+  let eventArgs = events.map((entry) => entry.args);
   eventArgs = eventArgs.filter(filter);
   assertEventListEmpty(eventArgs, message, `Event filter for ${eventType} returned results\n${getPrettyEmittedEventsString(result)}`);
 };
@@ -116,7 +116,7 @@ const createTransactionResult = async (contract, transactionHash) => {
     return {
       tx: transactionHash,
       receipt: transactionReceipt,
-      logs: eventList.filter(ev => ev.transactionHash === transactionHash),
+      logs: eventList.filter((ev) => ev.transactionHash === transactionHash),
     };
   }
 
@@ -128,7 +128,7 @@ const createTransactionResult = async (contract, transactionHash) => {
       resolve({
         tx: transactionHash,
         receipt: transactionReceipt,
-        logs: events.filter(ev => ev.transactionHash === transactionHash),
+        logs: events.filter((ev) => ev.transactionHash === transactionHash),
       });
     });
   });

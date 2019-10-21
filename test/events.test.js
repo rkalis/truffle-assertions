@@ -16,7 +16,7 @@ describe('eventEmitted', () => {
 
   it('should fail when event is emitted with incorrect arguments given as function', () => {
     assert.throws(() => (
-      truffleAssert.eventEmitted(truffleV4loseResult, 'Play', ev => ev.betNumber === ev.winningNumber)
+      truffleAssert.eventEmitted(truffleV4loseResult, 'Play', (ev) => ev.betNumber === ev.winningNumber)
     ), AssertionError);
   });
 
@@ -28,7 +28,7 @@ describe('eventEmitted', () => {
 
   it('should return passed error message when event is emitted with incorrect arguments', () => {
     assert.throws(() => (
-      truffleAssert.eventEmitted(truffleV4loseResult, 'Play', ev => ev.betNumber === ev.winningNumber, 'Should win')
+      truffleAssert.eventEmitted(truffleV4loseResult, 'Play', (ev) => ev.betNumber === ev.winningNumber, 'Should win')
     ), /Should win/);
   });
 
@@ -37,7 +37,7 @@ describe('eventEmitted', () => {
   });
 
   it('should pass when event is emitted with correct arguments given as function', () => {
-    truffleAssert.eventEmitted(truffleV4winResult, 'Play', ev => ev.betNumber === ev.winningNumber);
+    truffleAssert.eventEmitted(truffleV4winResult, 'Play', (ev) => ev.betNumber === ev.winningNumber);
   });
 
   it('should pass when event is emitted with correct arguments given as an object', () => {
@@ -65,7 +65,7 @@ describe('eventEmitted', () => {
 
   it('should throw an error when contract instance is passed instead of tx result', () => {
     assert.throws(() => (
-      truffleAssert.eventEmitted({}, 'Play', ev => ev.betNumber === ev.winningNumber)
+      truffleAssert.eventEmitted({}, 'Play', (ev) => ev.betNumber === ev.winningNumber)
     ), truffleAssert.InvalidTxResultError);
   });
 });
@@ -81,13 +81,13 @@ describe('eventNotEmitted', () => {
 
   it('should fail when event with specified arguments is emitted', () => {
     assert.throws(() => (
-      truffleAssert.eventNotEmitted(truffleV4winResult, 'Play', ev => ev.betNumber === ev.winningNumber)
+      truffleAssert.eventNotEmitted(truffleV4winResult, 'Play', (ev) => ev.betNumber === ev.winningNumber)
     ), AssertionError);
   });
 
   it('should return passed error message when event with specified arguments is emitted', () => {
     assert.throws(() => (
-      truffleAssert.eventNotEmitted(truffleV4winResult, 'Play', ev => ev.betNumber === ev.winningNumber, 'Should not win')
+      truffleAssert.eventNotEmitted(truffleV4winResult, 'Play', (ev) => ev.betNumber === ev.winningNumber, 'Should not win')
     ), /Should not win/);
   });
 
@@ -96,7 +96,7 @@ describe('eventNotEmitted', () => {
   });
 
   it('should pass when event with specified arguments given as function is not emitted', () => {
-    truffleAssert.eventNotEmitted(truffleV4winResult, 'Play', ev => ev.betNumber !== ev.winningNumber);
+    truffleAssert.eventNotEmitted(truffleV4winResult, 'Play', (ev) => ev.betNumber !== ev.winningNumber);
   });
 
   it('should pass when event with specified arguments given as object is not emitted', () => {
