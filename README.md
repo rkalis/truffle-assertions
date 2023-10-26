@@ -1,4 +1,4 @@
-⚠️ Truffle has been sunset, so truffle-assertions will also be sunset. It is recommended to move over to Hardhat or Foundry ⚠️
+⚠️ Truffle (and truffle-assertions) has been sunset. It is recommended to move over to Hardhat or Foundry ⚠️
 
 # truffle-assertions
 
