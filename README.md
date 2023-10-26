@@ -1,6 +1,7 @@
+⚠️ Truffle has been sunset, so truffle-assertions will also be sunset. It is recommended to move over to Hardhat or Foundry ⚠️
+
 # truffle-assertions
 
-[![Build Status](https://travis-ci.org/rkalis/truffle-assertions.svg)](https://travis-ci.org/rkalis/truffle-assertions)
 [![Coverage Status](https://img.shields.io/codecov/c/github/rkalis/truffle-assertions.svg)](https://codecov.io/gh/rkalis/truffle-assertions/)
 [![NPM Version](https://img.shields.io/npm/v/truffle-assertions.svg)](https://www.npmjs.com/package/truffle-assertions)
 [![NPM Monthly Downloads](https://img.shields.io/npm/dm/truffle-assertions.svg)](https://www.npmjs.com/package/truffle-assertions)
